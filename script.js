@@ -4,6 +4,11 @@ const { Client, GatewayIntentBits } = require('discord.js');
 
 const TOKEN = process.env.TOKEN;
 
+if (!TOKEN) {
+  console.error("❌ TOKEN não definido");
+  process.exit(1);
+}
+
 const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
@@ -12,15 +17,10 @@ const client = new Client({
   ]
 });
 
-if (!TOKEN) {
-  console.error("❌ TOKEN não definido");
-  process.exit(1);
-}
-
 const SOURCE_CHANNEL_ID = '1354297191094554776';
 const TARGET_CHANNEL_ID = '1483822397374206155';
 
-client.on('clientReady', () => {
+client.once('ready', () => {
   console.log(`✅ Bot online como ${client.user.tag}`);
 
   client.user.setPresence({
