@@ -1,0 +1,12 @@
+{
+  "name": "powerred",
+  "version": "1.0.0",
+  "main": "script.js",
+  "scripts": {
+    "start": "node script.js"
+  },
+  "dependencies": {
+    "discord.js": "^14.0.0",
+    "dotenv": "^16.0.0"
+  }
+}
