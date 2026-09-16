@@ -17,11 +17,24 @@ const client = new Client({
   ]
 });
 
-const SOURCE_CHANNEL_ID = '1354297191094554776';
-const TARGET_CHANNEL_ID = '1483822397374206155';
+const SOURCE_CHANNEL_ID = process.env.SOURCE_CHANNEL_ID;
+const TARGET_CHANNEL_ID = process.env.TARGET_CHANNEL_ID;
+const NOTIFY_ROLE_ID = process.env.NOTIFY_ROLE_ID;
+
+for (const [name, value] of Object.entries({ SOURCE_CHANNEL_ID, TARGET_CHANNEL_ID })) {
+  if (!/^\d{17,20}$/.test(value || "")) {
+    console.error(`Configure ${name} com um ID válido no ambiente privado.`);
+    process.exit(1);
+  }
+}
+if (NOTIFY_ROLE_ID && !/^\d{17,20}$/.test(NOTIFY_ROLE_ID)) {
+  console.error("NOTIFY_ROLE_ID inválido.");
+  process.exit(1);
+}
+const roleMention = NOTIFY_ROLE_ID ? `<@&${NOTIFY_ROLE_ID}> ` : "";
 
 client.once('ready', () => {
-  console.log(`✅ Bot online como ${client.user.tag}`);
+  console.log("Bot conectado.");
 
   client.user.setPresence({
     status: "invisible"
@@ -37,17 +50,20 @@ client.on('messageCreate', async (message) => {
     if (!targetChannel) return;
 
     await targetChannel.send({
-      content: `<@&1487142860317786112> 📩 **Nova mensagem**
+      content: `${roleMention}📩 **Nova mensagem**
 Autor: ${message.author.tag}
 Conteúdo: ${message.content || "sem texto"}`,
       embeds: message.embeds,
       files: message.attachments.map(att => att.url),
-      allowedMentions: { parse: ['roles'] }
+      allowedMentions: { parse: [], roles: NOTIFY_ROLE_ID ? [NOTIFY_ROLE_ID] : [] }
     });
 
   } catch (err) {
-    console.error("Erro ao enviar mensagem:", err);
+    console.error("Erro ao encaminhar mensagem. Verifique as permissões e a configuração do bot.");
   }
 });
 
-client.login(TOKEN);
+client.login(TOKEN).catch(() => {
+  console.error("Falha de autenticação. Verifique o token no ambiente privado.");
+  process.exitCode = 1;
+});

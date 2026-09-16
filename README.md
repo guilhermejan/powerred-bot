@@ -1,21 +1,20 @@
-# ⚙️ Powerred · Automação para Discord
+# Powerred · Automação para Discord
 
-Bot em Node.js e discord.js que encaminha mensagens de um canal configurado para outro, incluindo anexos e embeds.
+Bot em Node.js e discord.js para encaminhamento de mensagens entre canais autorizados. Projeto desenvolvido com apoio de IA.
 
-> 🤖 Projeto construído com assistência de IA na geração e alteração do código. Guilherme é estudante de Engenharia de Software, atualmente focado em Java, e ainda está desenvolvendo autonomia de programação. As tecnologias descritas representam contato prático assistido, não domínio independente ou certificação.
+## Configuração
 
-## Estrutura
+Copie `.env.example` para `.env` e preencha apenas localmente:
 
-- `script.js`: conexão do bot, evento de mensagem e encaminhamento.
-- `package.json`: dependências do projeto.
-- Token lido da variável de ambiente `TOKEN` com dotenv.
+- `TOKEN`: token novo do bot.
+- `SOURCE_CHANNEL_ID`: canal de origem.
+- `TARGET_CHANNEL_ID`: canal de destino.
+- `NOTIFY_ROLE_ID`: cargo opcional que pode receber menções.
 
-## Estado e uso responsável
+Instale as dependências e execute `node script.js`. Os IDs são validados antes da conexão. Menções vindas do texto encaminhado não notificam usuários ou outros cargos; somente o cargo configurado é permitido.
 
-Mantido privado. O código contém identificadores específicos de canais e cargo do ambiente original. Revise essas configurações antes de qualquer teste.
+## Credencial antiga exposta
 
-Use apenas em servidores e canais onde você tenha autorização, com ciência dos participantes sobre o encaminhamento. Não publique tokens, conteúdo de mensagens ou dados pessoais. Não foi feito teste funcional nem auditoria do histórico nesta revisão.
+**Um token foi identificado em um arquivo .env do histórico Git. Redefina o token no Discord Developer Portal antes de usar o bot novamente e atualize os ambientes de execução.** Não basta apagar o arquivo atual ou tornar o repositório privado. Commits antigos e cópias existentes podem continuar contendo a credencial.
 
-## Experiência registrada
-
-Contato assistido com JavaScript, Node.js, eventos, APIs e configuração por variáveis de ambiente.
+A versão atual não contém os IDs originais nem token literal. O histórico não foi reescrito nesta alteração. Use somente com autorização e ciência dos participantes sobre o encaminhamento de mensagens.
